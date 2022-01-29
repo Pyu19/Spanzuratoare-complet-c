@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1643142439 source:c:\users\maxim\desktop\codeblocks\spanzuratoare\main.cpp
+1643220886 source:c:\users\maxim\desktop\codeblocks\spanzuratoare\main.cpp
 	<iostream>
 	<fstream>
 	<string.h>

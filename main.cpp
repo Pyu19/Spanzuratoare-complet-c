@@ -7,8 +7,9 @@
 
 using namespace std;
 
-int m, x;
-char c[100], completare[100] = {"_"};
+int m, x, s;
+char c[100], completare[100], introdus[100];
+string cuv;
 
 void reguli()
 {
@@ -23,7 +24,7 @@ void reguli()
 void citire_random()
 {
     string cuvinte[1000];
-    int nr_cuvinte = 1;
+    int nr_cuvinte = 0;
     ifstream f;
     f.open("cuvinte.txt");
     while(f >> cuvinte[nr_cuvinte])
@@ -31,18 +32,21 @@ void citire_random()
         f >> cuvinte[nr_cuvinte];
         nr_cuvinte++;
     }
-
     srand(time(0));
     string cuv = cuvinte[rand() % nr_cuvinte];
     //cout<<cuv<<endl;
 
-    int n = cuv.length();
+    const int n = cuv.length();
     m=n;
     x=n;
     //cout<<n<<endl;
     char cuvin[n+1];
     strcpy(cuvin, cuv.c_str());
     strcpy(c, cuvin);
+    for(int i = 0; i < m; i++)
+        completare[i] = {0};
+    introdus[100] = {0};
+    s=0;
     //for(int i=0; i<m; i++)
     //cout<<c[i];
 }
@@ -52,9 +56,8 @@ void prima_afisare()
     for(int i = 0; i < m; i++)
     {
         cout<<" "<<"_"<<" ";
-    //char completare[i] = {'_'}; - nu merge!!!!!!!!!!!!!!!!!!!!!!
+        //char completare[i] = {'_'}; - nu merge!!!!!!!!!!!!!!!!!!!!!!
     }
-
 }
 
 int verificare(char a)
@@ -67,6 +70,8 @@ int verificare(char a)
             dubluri++;
             ok = 1;
             completare[i] = a;
+            introdus[s] = a;
+            s++;
         }
     }
     if(dubluri >= 1)
@@ -104,7 +109,10 @@ int spanzuratoarea()
     //cout<<c[i]<<" ";
     cout<<"Cuvantul a fost selectat!"<<endl;
     cout<<"Aveti "<<incercari<<" incercari!"<<endl;
-    cout<<"Success!"<<endl;
+    cout<<endl;
+    cout<<"~~Success~~"<<endl;
+    cout<<endl;
+    cout<<"Cuvantul are "<<m<<" litere"<<endl;
     prima_afisare();
     cout<<endl;
     while(incercari != 0 || castigat == 1)
@@ -181,14 +189,16 @@ int main()
                 cout<<"Felicitari! Ai castigat!";
                 cout<<endl;
             }
-
             else
             {
                 cout<<endl;
-                cout<<"Imi pare rau! Ai pierdut!";
+                cout<<"Imi pare rau! Ai pierdut!"<<endl;
+                cout<<"Cuvantul tau era: ";
+                for(int i = 0; i < m; i++)
+                    cout<<c[i];
                 cout<<endl;
             }
-            cout<<"Vrei sa joci?"<<endl;
+            cout<<"Vrei sa mai joci?"<<endl;
             cout<<endl;
             cout<<"Y - da"<<"       "<<"N - nu"<<endl;
             cin>>rasp[1];
