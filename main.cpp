@@ -8,7 +8,7 @@
 using namespace std;
 
 int m, x, s;
-char c[100], completare[100], introdus[100];
+char c[100], completare[100], folosit[100];
 string cuv;
 
 void reguli()
@@ -45,7 +45,7 @@ void citire_random()
     strcpy(c, cuvin);
     for(int i = 0; i < m; i++)
         completare[i] = {0};
-    introdus[100] = {0};
+    folosit[100] = {0};
     s=0;
     //for(int i=0; i<m; i++)
     //cout<<c[i];
@@ -54,15 +54,16 @@ void citire_random()
 void prima_afisare()
 {
     for(int i = 0; i < m; i++)
-    {
         cout<<" "<<"_"<<" ";
-        //char completare[i] = {'_'}; - nu merge!!!!!!!!!!!!!!!!!!!!!!
-    }
 }
 
 int verificare(char a)
 {
     int ok = 0, dubluri = 0;
+
+    folosit[s] = a;
+    s++;
+
     for(int i = 0; i < m; i++)
     {
         if(c[i] == a)
@@ -70,8 +71,6 @@ int verificare(char a)
             dubluri++;
             ok = 1;
             completare[i] = a;
-            introdus[s] = a;
-            s++;
         }
     }
     if(dubluri >= 1)
@@ -95,6 +94,98 @@ int complet()
     else return 0;
 }
 
+void moarte_treptata(int incercari)
+{
+    if(incercari == 7)
+    {
+        cout<<endl;
+        cout<<"_______"<<endl;
+        cout<<"|      "<<endl;
+        cout<<"|     "<<endl;
+        cout<<"|      "<<endl;
+        cout<<"|     "<<endl;
+        cout<<"|    "<<endl;
+        cout<<"|____"<<endl;
+    }
+
+    if(incercari == 6)
+    {
+        cout<<"_______"<<endl;
+        cout<<"|      O"<<endl;
+        cout<<"|     "<<endl;
+        cout<<"|      "<<endl;
+        cout<<"|     "<<endl;
+        cout<<"|    "<<endl;
+        cout<<"|____"<<endl;
+    }
+
+    if(incercari == 5)
+    {
+        cout<<"_______"<<endl;
+        cout<<"|      O"<<endl;
+        cout<<"|      |"<<endl;
+        cout<<"|      "<<endl;
+        cout<<"|     "<<endl;
+        cout<<"|    "<<endl;
+        cout<<"|____"<<endl;
+    }
+
+    if(incercari == 4)
+    {
+        cout<<"_______"<<endl;
+        cout<<"|      O"<<endl;
+        cout<<"|     /|"<<endl;
+        cout<<"|      "<<endl;
+        cout<<"|     "<<endl;
+        cout<<"|    "<<endl;
+        cout<<"|____"<<endl;
+    }
+
+    if(incercari == 3)
+    {
+        cout<<"_______"<<endl;
+        cout<<"|      O"<<endl;
+        cout<<"|     /|>"<<endl;
+        cout<<"|      |"<<endl;
+        cout<<"|     "<<endl;
+        cout<<"|    "<<endl;
+        cout<<"|____"<<endl;
+    }
+
+    if(incercari == 2)
+    {
+        cout<<"_______"<<endl;
+        cout<<"|      O"<<endl;
+        cout<<"|     /|>"<<endl;
+        cout<<"|      |"<<endl;
+        cout<<"|     / "<<endl;
+        cout<<"|    "<<endl;
+        cout<<"|____"<<endl;
+    }
+
+    if(incercari == 1)
+    {
+        cout<<"_______"<<endl;
+        cout<<"|      O"<<endl;
+        cout<<"|     /|>"<<endl;
+        cout<<"|      |"<<endl;
+        cout<<"|     / >"<<endl;
+        cout<<"|    "<<endl;
+        cout<<"|____"<<endl;
+    }
+
+    if(incercari == 0)
+    {
+        cout<<"_______"<<endl;
+        cout<<"|      O"<<endl;
+        cout<<"|     /|>"<<endl;
+        cout<<"|      |"<<endl;
+        cout<<"|     / >"<<endl;
+        cout<<"|    'foc'"<<endl;
+        cout<<"|____"<<endl;
+    }
+}
+
 void afisare_finala()
 {
     for(int i = 0; i < m; i++)
@@ -107,21 +198,27 @@ int spanzuratoarea()
     char a;
     //for(int i = 0; i < m; i++)
     //cout<<c[i]<<" ";
-    cout<<"Cuvantul a fost selectat!"<<endl;
+    cout<<"~~Cuvantul a fost selectat!~~"<<endl;
     cout<<"Aveti "<<incercari<<" incercari!"<<endl;
     cout<<endl;
-    cout<<"~~Success~~"<<endl;
+    cout<<"~Success~"<<endl;
     cout<<endl;
     cout<<"Cuvantul are "<<m<<" litere"<<endl;
     prima_afisare();
+    moarte_treptata(incercari);
     cout<<endl;
     while(incercari != 0 || castigat == 1)
     {
+        cout<<endl;
+        cout<<"Litere utilizate: ";
+        for(int i = 0; i < s; i++)
+            cout<<folosit[i]<<" ";
         cout<<endl;
         cout<<"Introduceti litera: ";
         cin>>a;
         if(verificare(a) == 1)
         {
+            moarte_treptata(incercari);
             if(x != 0)
             {
                 for(int j = 0; j < m; j++)
@@ -144,6 +241,7 @@ int spanzuratoarea()
             cout<<endl;
             cout<<"GRESIT!"<<endl;
             incercari--;
+            moarte_treptata(incercari);
             cout<<"Mai ai "<<incercari<<" incercari!"<< endl;
             for(int j = 0; j < m; j++)
             {
@@ -163,10 +261,10 @@ int main()
 {
     char rasp[1];
     int again = 1;
-    cout<<"Bine ai venit la ~SPANZURATOAREA!~"<<endl;
+    cout<<"~~~Bine ai venit la SPANZURATOAREA!~~~"<<endl;
     cout<<endl;
     reguli();
-    cout<<"Vrei sa joci?"<<endl;
+    cout<<"~~Vrei sa joci?~~"<<endl;
     cout<<endl;
     cout<<"Y - da"<<"       "<<"N - nu"<<endl;
     cin>>rasp[1];
@@ -186,19 +284,20 @@ int main()
                 for(int i = 0; i < m; i++)
                     cout<<completare[i];
                 cout<<endl;
-                cout<<"Felicitari! Ai castigat!";
+                cout<<"~~~Felicitari! Ai castigat!~~~";
                 cout<<endl;
             }
             else
             {
                 cout<<endl;
-                cout<<"Imi pare rau! Ai pierdut!"<<endl;
+                cout<<"~~~Imi pare rau! Ai pierdut!~~~"<<endl;
                 cout<<"Cuvantul tau era: ";
                 for(int i = 0; i < m; i++)
                     cout<<c[i];
                 cout<<endl;
             }
-            cout<<"Vrei sa mai joci?"<<endl;
+            cout<<endl;
+            cout<<"~~Vrei sa mai joci?~~"<<endl;
             cout<<endl;
             cout<<"Y - da"<<"       "<<"N - nu"<<endl;
             cin>>rasp[1];
@@ -207,9 +306,9 @@ int main()
                 again = 1;
             else again = 0;
         }
-        cout<<"Pe data viitoare!";
+        cout<<"~~Pe data viitoare!~~";
         cout<<endl;
     }
-    else cout<<"Pe data viitoare!";
+    else cout<<"~~Pe data viitoare!~~";
     cout<<endl;
 }
